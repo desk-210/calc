@@ -1,0 +1,20 @@
+[app]
+title = Calculator
+package.name = calculator
+package.domain = org.yourdomain
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas
+source.exclude_exts = spec
+source.exclude_dirs = tests, bin, build, .git, __pycache__, .buildozer
+version = 0.1
+requirements = python3,kivy,plyer
+orientation = portrait
+fullscreen = 0
+android.permissions = VIBRATE
+android.api = 30
+android.minapi = 21
+android.ndk = 23b
+android.arch = arm64-v8a
+android.skip_update = False
+android.accept_sdk_license = True
+android.debuggable = True

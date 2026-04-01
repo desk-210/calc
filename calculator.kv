@@ -1,0 +1,148 @@
+<Calculator>:
+    orientation: 'vertical'
+    spacing: 2
+    padding: 5
+
+    # Display area
+    BoxLayout:
+        size_hint_y: 0.2
+        id: display_box
+        canvas.before:
+            Color:
+                rgba: app.root.dark_theme and (0.1, 0.1, 0.1, 1) or (1, 1, 1, 1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Label:
+            id: display_label
+            text: root.expression
+            font_size: '50sp'
+            size_hint: (1, 1)
+            halign: 'right'
+            valign: 'center'
+            color: app.root.dark_theme and (1, 1, 1, 1) or (0, 0, 0, 1)
+            text_size: self.size
+            on_touch_move:
+                # Simple swipe detection on the label
+                if args[1].dx > root._swipe_threshold:
+                    root.expression = "0"
+                elif args[1].dx < -root._swipe_threshold:
+                    root.expression = "0"
+
+    # Button grid
+    GridLayout:
+        cols: 4
+        spacing: 2
+        size_hint_y: 0.65
+
+        # Row 1
+        Button:
+            text: 'C'
+            background_color: 0.8, 0.2, 0.2, 1 if root.dark_theme else 0.9, 0.5, 0.5, 1
+            on_release: root.add_character('C'); root.vibrate()
+        Button:
+            text: '⌫'
+            background_color: 0.5, 0.5, 0.5, 1
+            on_release: root.add_character('⌫'); root.vibrate()
+        Button:
+            text: '%'
+            background_color: 0.5, 0.5, 0.5, 1
+            on_release: root.add_character('%'); root.vibrate()
+        Button:
+            text: '/'
+            background_color: 0.2, 0.6, 0.8, 1
+            on_release: root.add_character('/'); root.vibrate()
+
+        # Row 2
+        Button:
+            text: '7'
+            on_release: root.add_character('7'); root.vibrate()
+        Button:
+            text: '8'
+            on_release: root.add_character('8'); root.vibrate()
+        Button:
+            text: '9'
+            on_release: root.add_character('9'); root.vibrate()
+        Button:
+            text: '*'
+            background_color: 0.2, 0.6, 0.8, 1
+            on_release: root.add_character('*'); root.vibrate()
+
+        # Row 3
+        Button:
+            text: '4'
+            on_release: root.add_character('4'); root.vibrate()
+        Button:
+            text: '5'
+            on_release: root.add_character('5'); root.vibrate()
+        Button:
+            text: '6'
+            on_release: root.add_character('6'); root.vibrate()
+        Button:
+            text: '-'
+            background_color: 0.2, 0.6, 0.8, 1
+            on_release: root.add_character('-'); root.vibrate()
+
+        # Row 4
+        Button:
+            text: '1'
+            on_release: root.add_character('1'); root.vibrate()
+        Button:
+            text: '2'
+            on_release: root.add_character('2'); root.vibrate()
+        Button:
+            text: '3'
+            on_release: root.add_character('3'); root.vibrate()
+        Button:
+            text: '+'
+            background_color: 0.2, 0.6, 0.8, 1
+            on_release: root.add_character('+'); root.vibrate()
+
+        # Row 5
+        Button:
+            text: '0'
+            on_release: root.add_character('0'); root.vibrate()
+        Button:
+            text: '.'
+            on_release: root.add_character('.'); root.vibrate()
+        Button:
+            text: '='
+            background_color: 0.3, 0.7, 0.3, 1
+            on_release: root.add_character('='); root.vibrate()
+        Button:
+            text: '☀️/🌙'
+            background_color: 0.5, 0.5, 0.5, 1
+            on_release: root.toggle_theme(); root.vibrate()
+
+    # History panel (collapsible? For simplicity, we'll make it always visible at bottom)
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_y: 0.15
+        Label:
+            text: 'History'
+            font_size: '16sp'
+            size_hint_y: 0.3
+            color: root.dark_theme and (0.8, 0.8, 0.8, 1) or (0.2, 0.2, 0.2, 1)
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            BoxLayout:
+                id: history_list
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 2
+        Button:
+            text: 'Clear history'
+            size_hint_y: 0.3
+            on_release: root.clear_history(); root.vibrate()
+
+# This is a helper to update the history list dynamically.
+# We'll use an on_history property in Python to update the UI.
+# Since we can't directly access the BoxLayout from .kv easily, we'll add a method in Python.
+# Let's instead create a RecycleView or use a simple approach: in Python, we'll update the children of history_list.
+
+# To make it work, add this to main.py:
+
+# In Calculator class, add a method update_history_ui() that clears and repopulates the BoxLayout.
+# Then call it whenever history changes (e.g., in calculate and clear_history).
