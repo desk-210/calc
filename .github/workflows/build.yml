@@ -3,7 +3,10 @@ name: Build Kivy APK
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Opt into Node.js 24 for GitHub Actions
 
 jobs:
   build:
