@@ -18,3 +18,4 @@ android.arch = arm64-v8a
 android.skip_update = False
 android.accept_sdk_license = True
 android.debuggable = True
+p4a.branch = release-2022.12.20
